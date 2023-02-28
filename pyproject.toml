@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "models"
+version = "0.1.0"
+description = "Neural Swarm Model Zoo"
+authors = ["Timothy Leung <timothyleung@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+codecarbon = "^2.1.4"
+datasets = "^2.9.0"
+numpy = "^1.24.2"
+pandas = "^1.5.3"
+pytorch-lightning = {extras = ["extra"], version = "^1.9.2"}
+torch = "^1.13.1"
+torchaudio = "^0.13.1"
+torchmetrics = "^0.11.1"
+torchvision = "^0.14.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+flake8 = "^6.0.0"
+ipykernel = "^6.21.1"
+isort = "^5.12.0"
+mypy = "^1.0.0"
+pre-commit = "^3.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,23 @@
+name: LeNet
+date: '1998-11-01'
+organisation: AT&T
+task: Image Classification
+paper: LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-based learning
+  applied to document recognition. Proceedings of the IEEE, 86(11), 2278-2324.
+blog_post: ''
+summary: LeNet-5 is used to classify handwritten digits and is one of the earliest
+  convolutional neural networks trained by backpropagation.
+description: 'The model uses a few non-standard techniques: trainable pooling layers,
+  scaled activation functions and Radiance Basis Function units in the output layer.'
+inputs: 28 x 28 greyscale image
+outputs: 10 classes
+trainable_parameters: 60840
+loss_function: MLE
+datasets:
+- mnist
+metrics:
+- accuracy
+evaluation_result: 0.9794999957
+carbon_emitted: 0.73253
+hardware_used: 1 x Nvidia Tesla T4
+license: unknown

@@ -4,7 +4,12 @@ from torch.utils import data
 
 
 class MNISTDataModule(pl.LightningDataModule):
-    def __init__(self, batch_size: int = 32):
+    def __init__(
+        self,
+        batch_size: int = 1,
+        num_workers: int = 0,
+        pin_memory: bool = False,
+    ):
         super().__init__()
         self.save_hyperparameters()
 
@@ -25,13 +30,13 @@ class MNISTDataModule(pl.LightningDataModule):
             self.predict_dataset.set_format(type="torch")
 
     def train_dataloader(self):
-        return data.DataLoader(self.train_dataset, batch_size=self.hparams.batch_size)
+        return data.DataLoader(self.train_dataset, **self.hparams)
 
     def val_dataloader(self):
-        return data.DataLoader(self.val_dataset, batch_size=self.hparams.batch_size)
+        return data.DataLoader(self.val_dataset, **self.hparams)
 
     def test_dataloader(self):
-        return data.DataLoader(self.test_dataset, batch_size=self.hparams.batch_size)
+        return data.DataLoader(self.test_dataset, **self.hparams)
 
     def predict_dataloader(self):
-        return data.DataLoader(self.predict_dataset, batch_size=self.hparams.batch_size)
+        return data.DataLoader(self.predict_dataset, **self.hparams)

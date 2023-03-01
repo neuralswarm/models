@@ -31,9 +31,27 @@ cd models
 poetry install
 ```
 
-**Train/test model**
+**Train model**
 ```bash
-poetry run python models/le_net.py
+poetry run python models/le_net.py fit \
+    --trainer.accelerator 'gpu' \
+    --trainer.devices 2 \
+    --trainer.strategy 'ddp' \
+    --trainer.max_epochs 10 \
+    --trainer.callbacks+=ModelSummary \
+    --trainer.callbacks.max_depth=2 \
+    --data.batch_size 128 \
+    --data.num_workers 4 \
+    --data.pin_memory true
+```
+
+**Evaluate model**
+```bash
+poetry run python models/le_net.py test \
+    --data.batch_size 128 \
+    --data.num_workers 4 \
+    --data.pin_memory true \
+    --ckpt_path weights/le_net.ckpt
 ```
 
 ## License

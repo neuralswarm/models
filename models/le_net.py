@@ -4,7 +4,6 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 from codecarbon import OfflineEmissionsTracker
-from pytorch_lightning.callbacks import ModelCheckpoint, ModelSummary
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.cli import LightningCLI
 from torch import optim
@@ -170,6 +169,7 @@ class LeNet(pl.LightningModule):
 
     def on_fit_end(self):
         self.tracker.stop()
+        self.trainer.save_checkpoint("weights/le_net.ckpt", weights_only=True)
 
     def training_step(self, batch, batch_idx):
         metrics = self._shared_eval_step(batch, batch_idx)
@@ -203,14 +203,7 @@ class LeNet(pl.LightningModule):
 
     def configure_callbacks(self):
         early_stopping = EarlyStopping(monitor="validate_loss", mode="min")
-        model_checkpoint = ModelCheckpoint(
-            dirpath="weights/",
-            filename="le_net",
-            save_top_k=1,
-            save_weights_only=True,
-        )
-        model_summary = ModelSummary(max_depth=2)
-        return [early_stopping, model_checkpoint, model_summary]
+        return [early_stopping]
 
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=1e-3)

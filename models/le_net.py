@@ -106,13 +106,16 @@ class LeNet(pl.LightningModule):
 
     Based on `Gradient-based Learning Applied to Document Recognition` - Lecun, Y.,
     Bottou, L., Bengio, Y. & Haffner, P. (1998)
+
+    Args:
+        num_classes (int): Number of output classes of the model
     """
 
-    def __init__(self):
+    def __init__(self, num_classes: int = 10):
         super().__init__()
         self.save_hyperparameters()
         self.example_input_array = torch.Tensor(32, 1, 28, 28)
-        self.accuracy = Accuracy(task="multiclass", num_classes=10)
+        self.accuracy = Accuracy(task="multiclass", num_classes=num_classes)
         self.mapping = torch.LongTensor(
             [
                 [1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1],
@@ -155,7 +158,10 @@ class LeNet(pl.LightningModule):
                     ("FLATTEN", nn.Flatten()),
                     ("F6", nn.Linear(in_features=120, out_features=84)),
                     ("A6", TanhScale()),
-                    ("OUTPUT", RadialBasisFunction(in_features=84, out_features=10)),
+                    (
+                        "OUTPUT",
+                        RadialBasisFunction(in_features=84, out_features=num_classes),
+                    ),
                 ]
             )
         )
